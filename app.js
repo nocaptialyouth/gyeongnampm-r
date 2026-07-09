@@ -585,6 +585,81 @@
     alert(`📞 ${name} 전화번호 안내\n\n▶ 전화번호: ${phone}\n\n확인을 누르면 번호가 클립보드에 자동 복사됩니다.`);
   });
 
+  // AdSense 연동 필수 정책 모달 처리
+  const policyDialog = $("#policyDialog");
+  const policyContent = $("#policyContent");
+
+  if (policyDialog) {
+    policyDialog.addEventListener("click", (event) => {
+      if (event.target === policyDialog || event.target.closest(".dialog-close")) policyDialog.close();
+    });
+  }
+
+  function openPolicy(title, bodyHtml) {
+    if (!policyDialog || !policyContent) return;
+    policyContent.innerHTML = `
+      <div class="dialog-header">
+        <div class="dialog-title-wrap">
+          <p>경상남도 재활기관 안내 서비스</p>
+          <h2 id="policyTitle">${title}</h2>
+        </div>
+        <button class="dialog-close" aria-label="닫기">×</button>
+      </div>
+      <div class="dialog-body" style="line-height: 1.8; font-size: 14.5px; color: var(--ink);">
+        ${bodyHtml}
+      </div>
+    `;
+    policyDialog.showModal();
+  }
+
+  const POLICIES = {
+    privacy: {
+      title: "개인정보처리방침 (Privacy Policy)",
+      body: `
+        <h3 style="margin-top: 0; color: var(--teal-900);">1. 수집하는 개인정보 항목</h3>
+        <p>본 서비스("경상남도 재활기관 검색 가이드")는 사용자로부터 어떠한 이름, 이메일, 전화번호 등의 개인 식별 정보도 별도로 입력받거나 서버로 전송하여 수집하지 않는 **회원가입이 필요 없는 비영리 정보 조회 서비스**입니다.</p>
+        <p>단, 사용자가 선호하는 기관을 즐겨찾기(관심기관 ★)로 설정할 경우, 브라우저가 제공하는 로컬 저장소(LocalStorage)에 해당 기관 고유 ID를 보관하며, 이는 전적으로 사용자의 기기 내부에서만 처리되고 외부에 공유되거나 서버에 백업되지 않습니다.</p>
+        
+        <h3 style="margin-top: 20px; color: var(--teal-900);">2. 쿠키(Cookie) 및 제3자 광고사용 안내</h3>
+        <p>본 서비스는 사용자 경험 개선 및 구글 애드센스(Google AdSense) 광고 게재를 위해 분석 도구 및 제3자 광고 시스템을 이용할 수 있으며, 이 과정에서 쿠키(Cookie) 또는 비식별 식별자가 자동으로 생성되어 저장될 수 있습니다.</p>
+        <p>구글 애드센스는 쿠키를 사용하여 사용자가 당사 사이트 또는 타 사이트를 방문한 내역을 기반으로 맞춤형 맞춤광고를 표시합니다. 사용자는 구글의 <a href="https://adssettings.google.com" target="_blank" rel="noopener" style="color: var(--teal-800); font-weight: 800;">광고 설정</a> 또는 브라우저의 쿠키 옵션을 통해 이러한 맞춤 광고 배제를 직접 설정하실 수 있습니다.</p>
+        
+        <h3 style="margin-top: 20px; color: var(--teal-900);">3. 개인정보 보호 문의</h3>
+        <p>본 방침 또는 로컬데이터 처리에 대한 궁금증이나 제안사항이 있으신 경우 아래 '정보 오류 제보 및 문의' 창구를 통해 제보 또는 이메일 연락을 주시면 신속히 답변해 드리겠습니다.</p>
+      `
+    },
+    terms: {
+      title: "이용약관 및 면책고지 (Terms & Disclaimer)",
+      body: `
+        <h3 style="margin-top: 0; color: var(--teal-900);">1. 서비스 이용 안내</h3>
+        <p>본 사이트에서 제공되는 모든 의료기관 정보는 건강보험심사평가원(HIRA), 보건복지부, 근로복지공단, 국립재활원의 오픈 공공데이터 및 공개 자료를 수집·가공하여 공공의 알 권리를 위해 무료로 제공하는 웹 정보 서비스입니다.</p>
+        
+        <h3 style="margin-top: 20px; color: var(--teal-900);">2. 데이터의 한계 및 면책 고지</h3>
+        <p>각 의료기관의 상세 현황(전문의 수, 입원 대기 병상 유무, 치료 형태 등)은 매시간 또는 일 단위로 변경될 수 있어 실제 현황과 일치하지 않는 정보가 포함될 수 있습니다. **따라서 어떠한 응급조치나 입원 및 내원 결정을 내리시기 전에, 반드시 안내된 대표 전화를 통해 해당 병원 원무과나 치료센터에 직접 전화를 걸어 최신 상황을 재확인해야 합니다.**</p>
+        <p>본 사이트 개설자 및 서비스 제공자는 제공된 데이터의 오류, 지연, 누락 등으로 인해 이용자에게 발생한 어떠한 신체적·재산적 손실이나 법적 분쟁에 대해서도 간접적/직접적 법적 배상 책임을 지지 않습니다.</p>
+        
+        <h3 style="margin-top: 20px; color: var(--teal-900);">3. 저작권 및 공공 이용 범위</h3>
+        <p>본 검색가이드 플랫폼의 코드, 레이아웃 및 랜드마크 배너 디자인 등은 본 사이트에 귀속되어 있으며, 개인 참고 용도 외 상업적 목적의 무단 재배포 및 데이터베이스 크롤링은 엄격히 금지됩니다.</p>
+      `
+    },
+    contact: {
+      title: "정보 오류 제보 및 문의 (Feedback & Contact)",
+      body: `
+        <h3 style="margin-top: 0; color: var(--teal-900);">✉ 문의 및 데이터 정정 제보 안내</h3>
+        <p>병원 정보가 변경되었거나, 잘못 기록된 내용이 발견된 경우 신속히 정정 조치를 취하도록 하겠습니다. 병원 관계자분이나 이용자분들의 적극적인 제보를 기다립니다.</p>
+        <div style="background: var(--mint-soft); border: 1px solid #b9ddd7; padding: 18px; border-radius: 12px; margin-top: 15px;">
+          <p style="margin: 0 0 8px; font-weight: 800; color: var(--teal-900);">대표 이메일 문의처</p>
+          <p style="margin: 0; font-size: 17px; font-family: monospace; font-weight: 900; color: #08776e;">rkstmtk@gmail.com</p>
+        </div>
+        <p style="margin-top: 15px; font-size: 12.5px; color: var(--muted);">※ 제보 시 [병원명] 및 [변경이 필요한 항목(주소, 전화번호, 전문의 수 등)]을 정확히 작성하여 송부해 주시면, 심평원 및 공식 홈페이지 대조 작업을 거쳐 24시간 이내에 데이터에 반영해 드리겠습니다.</p>
+      `
+    }
+  };
+
+  $("#privacyBtn")?.addEventListener("click", () => openPolicy(POLICIES.privacy.title, POLICIES.privacy.body));
+  $("#termsBtn")?.addEventListener("click", () => openPolicy(POLICIES.terms.title, POLICIES.terms.body));
+  $("#contactBtn")?.addEventListener("click", () => openPolicy(POLICIES.contact.title, POLICIES.contact.body));
+
   populateFilters();
   render();
 })();

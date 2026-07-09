@@ -247,12 +247,23 @@
   </main>
 
   <footer>
+    <div class="footer-links" style="display: flex; justify-content: center; gap: 15px; margin-bottom: 12px; font-size: 13px; flex-wrap: wrap; line-height: 1.8;">
+      <button type="button" id="privacyBtn" style="background: none; border: none; color: #022c22; cursor: pointer; font-weight: 700; text-decoration: underline; font-family: inherit;">개인정보처리방침</button>
+      <span style="color: rgba(2, 44, 34, 0.25);">|</span>
+      <button type="button" id="termsBtn" style="background: none; border: none; color: #022c22; cursor: pointer; font-weight: 700; text-decoration: underline; font-family: inherit;">이용약관 및 면책고지</button>
+      <span style="color: rgba(2, 44, 34, 0.25);">|</span>
+      <button type="button" id="contactBtn" style="background: none; border: none; color: #022c22; cursor: pointer; font-weight: 700; text-decoration: underline; font-family: inherit;">정보 오류 제보 및 문의</button>
+    </div>
     <p>자료 기준: 심평원(HIRA)·국립재활원·보건복지부·근로복지공단·기관 공개정보 및 원본 조사표 (2026.07 교차검토)</p>
     <a href="#top">맨 위로 ↑</a>
   </footer>
 
   <dialog id="detailDialog" aria-labelledby="dialogTitle">
     <div id="dialogContent"></div>
+  </dialog>
+
+  <dialog id="policyDialog" aria-labelledby="policyTitle">
+    <div id="policyContent"></div>
   </dialog>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
